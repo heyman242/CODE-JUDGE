@@ -25,6 +25,14 @@ const problemSchema = new Schema({
     enum: ["easy", "medium", "hard"],
     required: true,
   },
+  testInputs:{
+    type: [String],
+    required: true,
+  },
+  testOutputs: {
+    type: [String],
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Problem", problemSchema);

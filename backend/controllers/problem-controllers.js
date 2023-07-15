@@ -1,7 +1,7 @@
 const Problem = require("../model/Problem");
 
 const addProblem = async (req, res, next) => {
-  const { problemName, problemStatement, sampleInputs, sampleOutputs, level } = req.body;
+  const { problemName, problemStatement, sampleInputs, sampleOutputs, level, testInputs, testOutputs} = req.body;
 
   try {
     const problem = new Problem({
@@ -10,6 +10,8 @@ const addProblem = async (req, res, next) => {
       sampleInputs,
       sampleOutputs,
       level,
+      testInputs,
+      testOutputs,
     });
 
     await problem.save();
