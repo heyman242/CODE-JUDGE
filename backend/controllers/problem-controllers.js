@@ -23,4 +23,16 @@ const addProblem = async (req, res, next) => {
   }
 };
 
+const getProblems = async (req,res,next) => {
+  try {
+    const problems = await Problem.find();
+    return res.status(200).json({ problems });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
+
+}
+}
+
 exports.addProblem = addProblem;
+exports.getProblems = getProblems;
