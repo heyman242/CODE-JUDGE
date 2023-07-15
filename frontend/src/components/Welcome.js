@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 axios.defaults.withCredentials = true;
+
 let firstRender = true;
 const Welcome = () => {
   const [user, setUser] = useState();
+  const history = useNavigate();
 
   const refreshToken = async () => {
     const res = await axios
@@ -35,7 +39,18 @@ const Welcome = () => {
     return () => clearInterval(interval);
   }, []);
 
-  return <div>{user && <h1>{user.name}</h1>}</div>;
+
+  const handleAddProblem = () => {
+  history('/addproblem');
+};
+
+
+
+  return <div>
+      <br/> 
+      {user && <h1> Welcome to Code-Judge {user.name}!</h1>}
+      <button onClick={handleAddProblem}>Add Problem</button>
+  </div>;
 };
 
 export default Welcome;
