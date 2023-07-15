@@ -29,7 +29,7 @@ const Header = () => {
     <div>
         <AppBar position="sticky">
             <Toolbar>
-                     <Typography varient="h1">CODE-JUDGE</Typography>
+                     <Typography varient="h1"><h1>CODE-JUDGE</h1></Typography>
                      <Box sx={{marginLeft:"auto"}}>
                         <Tabs 
                          indicatorColor='secondary'
