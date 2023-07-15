@@ -1,0 +1,16 @@
+.solve-page {
+    display: flex;
+}
+
+.problem-details {
+    flex: 1;
+    padding: 10px;
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.code-editor {
+    flex: 1.5;
+    padding: 0px;
+    
+}

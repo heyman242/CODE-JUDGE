@@ -40,14 +40,14 @@ const login = async (req, res, next) => {
     }
 
     const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "1000000s",
+      expiresIn: "35s",
     });
 
     console.log("Generated Token:\n", token);
 
     res.cookie(String(existingUser._id), token, {
       path: "/",
-      expires: new Date(Date.now() + 1000 * 100000), // 30 seconds
+      expires: new Date(Date.now() + 1000 * 30), // 30 seconds
       httpOnly: true,
       sameSite: "lax",
     });
@@ -104,13 +104,13 @@ const refreshToken = (req, res, next) => {
     req.cookies[user.id] = "";
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "100000s",
+      expiresIn: "35s",
     });
     console.log("Regenerated Token:\n", token);
 
     res.cookie(user.id, token, {
       path: "/",
-      expires: new Date(Date.now() + 1000 * 100000), // 30 seconds
+      expires: new Date(Date.now() + 1000 * 30), // 30 seconds
       httpOnly: true,
       sameSite: "lax",
     });

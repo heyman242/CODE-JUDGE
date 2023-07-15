@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Welcome from "./components/Welcome";
 import Addproblem from './components/Addproblem';
+import SolvePage from './components/SolvePage';
 
 function App() {
   const isLoggedIn = useSelector(state => state.isLoggedIn);
@@ -23,6 +24,8 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           {isLoggedIn && <Route path="/user" element={<Welcome />} />}
           {isLoggedIn && <Route path="/addproblem" element={<Addproblem />} />}
+          {isLoggedIn && <Route path="/solve/:problemId" element={<SolvePage />} />}
+
           
           
 
