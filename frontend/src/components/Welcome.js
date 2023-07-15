@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Button } from '@mui/material';
 
 axios.defaults.withCredentials = true;
 
@@ -74,30 +75,52 @@ const Welcome = () => {
 
 
   return <div>
-      <br/> 
-      {user && <h1> Welcome to Code-Judge {user.name}!</h1>}
-      <button onClick={handleAddProblem}>Add Problem</button>
       <br/>
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Level</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {problems.map((problem) => (
-            <tr key={problem._id}>
-              <td>{problem.problemName}</td>
-              <td>{problem.level}</td>
-              <td>
-                <button onClick={() => handleSolveProblem(problem._id)}>Solve</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      
+     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+       {user && <h1 style={{ textAlign: "center" }}>Welcome to Code-Judge {user.name}!</h1>}
+      
+      <br/>
+      <Button
+    variant="contained"
+    color="primary"
+    onClick={handleAddProblem}
+    style={{ marginTop: "1rem", backgroundColor: "#f50057", color: "#ffffff" }}
+  >
+    Add Problem
+  </Button>
+      <br/><br/>
+      <table style={{ margin: "auto", fontSize: "30px", border: "1px solid black", width: "80%", height: "auto" }}>
+  <thead>
+    <tr>
+      <th style={{ border: "1px solid black" }}>#</th>
+      <th style={{ border: "1px solid black" }}>Title</th>
+      <th style={{ border: "1px solid black" }}>Level</th>
+      <th style={{ border: "1px solid black" }}>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {problems.map((problem, index) => (
+      <tr key={problem._id}>
+        <td style={{ border: "1px solid black", textAlign: "center" }}>{index + 1}</td>
+        <td style={{ border: "1px solid black",textAlign: "center"}}>{problem.problemName}</td>
+        <td style={{ border: "1px solid black", textAlign: "center" }}>{problem.level}</td>
+        <td style={{ border: "1px solid black", textAlign: "center" }}>
+          <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleSolveProblem(problem._id)}
+          style={{ backgroundColor: "#4caf50", color: "#ffffff" }}
+        >
+          Solve
+        </Button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+</div>
   </div>;
 };
 
