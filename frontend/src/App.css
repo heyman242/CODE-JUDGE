@@ -4,8 +4,7 @@
 
 .problem-details {
     flex: 1;
-    padding: 10px;
-    margin-left: 10px;
+    padding: 20px;
     font-size: 20px;
 }
 
@@ -13,4 +12,83 @@
     flex: 1.5;
     padding: 0px;
     
+}
+.solve-page {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.problem-details {
+    width: 70%;
+}
+
+.problem-details h1 {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.problem-statement h3 {
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+
+.problem-statement p {
+    margin: 0;
+}
+
+.sample-io-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.sample-input,
+.sample-output {
+    width: 45%;
+}
+
+.sample-input h4,
+.sample-output h4 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.sample-input pre,
+.sample-output pre {
+    margin: 0;
+}
+
+.output-container {
+    margin-top: 20px;
+    margin-left: 100px;
+}
+
+
+
+
+.custom-input-container textarea {
+    width: 55%;
+    height: 60px;
+    font-size: 16px;
+    margin-left: 70px;  
+}
+
+.language-select {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.language-select label {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.language-select select {
+    padding: 5px 10px;
+    font-size: 10px;
+    background-color: #fff;
 }

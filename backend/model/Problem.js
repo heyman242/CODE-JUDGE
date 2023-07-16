@@ -13,11 +13,11 @@ const problemSchema = new Schema({
     required: true,
   },
   sampleInputs: {
-    type: [String],
+    type: String,
     required: true,
   },
   sampleOutputs: {
-    type: [String],
+    type: String,
     required: true,
   },
   level: {
@@ -25,12 +25,12 @@ const problemSchema = new Schema({
     enum: ["easy", "medium", "hard"],
     required: true,
   },
-  testInputs:{
-    type: [String],
+   testInputs: {
+    type: [Schema.Types.Mixed],
     required: true,
   },
   testOutputs: {
-    type: [String],
+    type: [Schema.Types.Mixed],
     required: true,
   },
 });

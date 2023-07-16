@@ -25,10 +25,26 @@ const generateFile = async (format, content) => {
   return filepath;
 };
 
-const executeCpp = (filepath) => {
+const executeCpp = (filepath, customInput) => {
+  return new Promise((resolve, reject) => {
+    const command = `g++ ${filepath} -o ${filepath}.out && echo "${customInput}" | ${filepath}.out`;
+
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        reject({ error, stderr });
+      } else {
+        resolve(stdout);
+      }
+    });
+  });
+};
+
+
+
+const executePy = (filepath, customInput) => {
   return new Promise((resolve, reject) => {
     exec(
-      `g++ ${filepath} -o ${filepath}.out && ${filepath}.out`,
+      `echo "${customInput}" | python3 ${filepath}`,
       (error, stdout, stderr) => {
         if (error) {
           reject({ error, stderr });
@@ -40,23 +56,9 @@ const executeCpp = (filepath) => {
   });
 };
 
-const executePy = (filepath) => {
-  return new Promise((resolve, reject) => {
-    exec(
-      `python3 ${filepath}`,
-      (error, stdout, stderr) => {
-        if (error) {
-          reject({ error, stderr });
-        } else {
-          resolve(stdout);
-        }
-      }
-    );
-  });
-};
 
 const compileCode = async (req, res) => {
-  const { language = "cpp", code } = req.body;
+  const { language = "cpp", code, customInput } = req.body;
   if (!code) {
     return res.status(400).json({ success: false, error: "Empty code body" });
   }
@@ -66,9 +68,9 @@ const compileCode = async (req, res) => {
     let output = "";
 
     if (language === "cpp") {
-      output = await executeCpp(filepath);
+      output = await executeCpp(filepath, customInput);
     } else if (language === "py") {
-      output = await executePy(filepath);
+      output = await executePy(filepath, customInput);
     }
 
     return res.status(200).json({ filepath, output });
