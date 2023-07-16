@@ -71,7 +71,7 @@ const Welcome = () => {
   };
 
   const handleSolveProblem = (problemId) => {
-    history(`/solve/${problemId}`);
+    history(`/solve/${problemId}?userId=${user._id}`); // Pass the userId as a query parameter
   };
 
   return (

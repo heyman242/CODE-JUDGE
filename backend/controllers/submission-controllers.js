@@ -82,4 +82,28 @@ const compileCode = async (req, res) => {
   }
 };
 
+const compileCode1 = async (req, res) => {
+  const { language = "cpp", code, customInput } = req.body;
+  if (!code) {
+    return res.status(400).json({ success: false, error: "Empty code body" });
+  }
+
+  try {
+    const filepath = await generateFile(language, code);
+    let output = "";
+
+    if (language === "cpp") {
+      output = await executeCpp(filepath, customInput);
+    } else if (language === "py") {
+      output = await executePy(filepath, customInput);
+    }
+
+    return { filepath, output };
+  } catch (error) {
+    console.error(error);
+    return { filepath: null, output: null };
+  }
+};
+
 exports.compileCode = compileCode;
+exports.compileCode1 = compileCode1;
