@@ -40,14 +40,14 @@ const login = async (req, res, next) => {
     }
 
     const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "35s",
+      expiresIn: "100000s",
     });
 
     console.log("Generated Token:\n", token);
 
     res.cookie(String(existingUser._id), token, {
       path: "/",
-      expires: new Date(Date.now() + 1000 * 30), // 30 seconds
+      expires: new Date(Date.now() + 1000 * 100000), 
       httpOnly: true,
       sameSite: "lax",
     });
@@ -104,13 +104,13 @@ const refreshToken = (req, res, next) => {
     req.cookies[user.id] = "";
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "35s",
+      expiresIn: "1000000s",
     });
     console.log("Regenerated Token:\n", token);
 
     res.cookie(user.id, token, {
       path: "/",
-      expires: new Date(Date.now() + 1000 * 30), // 30 seconds
+      expires: new Date(Date.now() + 1000 * 1000000), 
       httpOnly: true,
       sameSite: "lax",
     });
@@ -122,17 +122,17 @@ const refreshToken = (req, res, next) => {
 
 const logout = (req, res, next) => {
   const cookies = req.headers.cookie;
-  const prevToken = cookies && cookies.split("=")[1];
+  const prevToken = cookies.split("=")[1];
   if (!prevToken) {
     return res.status(400).json({ message: "Couldn't find token" });
   }
-  jwt.verify(prevToken, process.env.JWT_SECRET_KEY, (err, user) => {
+  jwt.verify(String(prevToken), process.env.JWT_SECRET_KEY, (err, user) => {
     if (err) {
-      console.error(err);
+      console.log(err);
       return res.status(403).json({ message: "Authentication failed" });
     }
-    res.clearCookie(user.id);
-    req.cookies[user.id] = "";
+    res.clearCookie(`${user.id}`);
+    req.cookies[`${user.id}`] = "";
     return res.status(200).json({ message: "Successfully Logged Out" });
   });
 };

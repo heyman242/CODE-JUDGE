@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useLocation } from 'react-router-dom';
 import { Box, Button, Select, MenuItem, Typography } from '@mui/material';
+import stubs from '../defaultStubs';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-c_cpp';
 import 'ace-builds/src-noconflict/mode-python';
@@ -32,10 +33,13 @@ const SolvePage = () => {
     };
 
     fetchProblemDetails();
-  }, [problemId]);
+    setCode(stubs[language]);
+  }, [problemId,language]);
 
   const handleLanguageChange = (e) => {
+    
     setLanguage(e.target.value);
+    
   };
 
   const handleCodeChange = (newCode) => {
@@ -63,12 +67,12 @@ const SolvePage = () => {
       const { filepath, output: compiledOutput } = response.data;
 
       setJobId(filepath);
-      setStatus('Compilation Success');
+      setStatus('Compilation Successful');
       setOutput(compiledOutput);
     } catch (error) {
       console.error(error);
       setStatus('Error');
-      setOutput('An error occurred during code compilation.');
+      setOutput('Compilation Error');
     }
   };
 
@@ -87,11 +91,11 @@ const SolvePage = () => {
       const response = await axios.post(`http://localhost:5000/api/submit/${problemId}`, payload);
       const { verdict } = response.data;
 
-      setStatus(verdict === 'success' ? 'Success' : 'Error');
+      setStatus(verdict === 'Accepted' ? 'Accepted' : 'Wrong Answer');
       setOutput(response.data.output);
     } catch (error) {
       console.error(error);
-      setStatus('Error');
+      setStatus('Wrong Answer');
     }
   };
 
@@ -104,34 +108,36 @@ const SolvePage = () => {
   return (
     <Box className="solve-page">
       <Box className="problem-details">
-        <Typography variant="h1">{problemName}</Typography>
-        <Box className="problem-statement">
-          <Typography variant="h3">Problem Statement:</Typography>
-          <Typography variant="body1">{problemStatement}</Typography>
-        </Box>
-        <Box className="sample-io-container">
-          <Box className="sample-input">
-            <Typography variant="h4">Sample Input:</Typography>
-            <pre>{sampleInputs}</pre>
-          </Box>
-          <Box className="sample-output">
-            <Typography variant="h4">Sample Output:</Typography>
-            <pre>{sampleOutputs}</pre>
-          </Box>
-        </Box>
-        <Box className="language-select">
-          <Typography htmlFor="language-select" variant="h5">Language:</Typography>
-          <Select id="language-select" value={language} onChange={handleLanguageChange}>
-            <MenuItem value="cpp">C++</MenuItem>
-            <MenuItem value="py">Python</MenuItem>
-          </Select>
-        </Box>
-        <Box className="output-container">
-          <Typography>Status: {status}</Typography>
-          <Typography>Output:</Typography>
-          <pre>{output}</pre>
-        </Box>
+    <Typography variant="h1">{problemName}</Typography>
+    <Box className="problem-statement">
+      <Typography variant="h3">Problem Statement:</Typography>
+      <Typography variant="body1">{problemStatement}</Typography>
+    </Box>
+    <Box className="sample-io-container">
+      <Box className="sample-input">
+        <Typography variant="h4">Sample Input:</Typography>
+        <pre>{sampleInputs}</pre>
       </Box>
+      <Box className="sample-output">
+        <Typography variant="h4">Sample Output:</Typography>
+        <pre>{sampleOutputs}</pre>
+      </Box>
+    </Box>
+    <Box className="language-select">
+      <Typography htmlFor="language-select" variant="h5">Language:</Typography>
+      <Select id="language-select" value={language} onChange={handleLanguageChange}>
+        <MenuItem value="cpp">C++</MenuItem>
+        <MenuItem value="py">Python</MenuItem>
+      </Select>
+    </Box>
+     <Box className="output-container">
+    <Typography variant="h4">Status: {status}</Typography>
+    <Typography variant="h4">Output: {output}</Typography>
+  </Box>
+  </Box>
+
+ 
+      
       <Box className="code-editor"> 
         <AceEditor
           mode={language === 'cpp' ? 'c_cpp' : 'python'}
@@ -142,7 +148,7 @@ const SolvePage = () => {
           showPrintMargin={true}
           showGutter={true}
           highlightActiveLine={true}
-          style={{ marginLeft: '70px', height: '670px', width: '90%' }}
+          style={{  height: '670px', width: '100%' }}
         />
         <Box className="custom-input-container">
           <textarea
@@ -158,10 +164,12 @@ const SolvePage = () => {
           color="primary"
           onClick={handleCompile}
           style={{
-            marginTop: '-100px',
-            marginLeft: '600px',
+            marginTop: '-114px',
+            marginLeft: '610px',
             backgroundColor: '#4caf50',
-            color: '#ffffff',
+            color: '#000000',
+            border: '4px solid #000000',
+            outline: 'none',
           }}
         >
           Compile
@@ -171,10 +179,13 @@ const SolvePage = () => {
           color="primary"
           onClick={handleSubmit}
           style={{
-            marginTop: '-140px',
-            marginLeft: '700px',
-            backgroundColor: '#4caf50',
-            color: '#ffffff',
+            marginTop: '-150px',
+            marginLeft: '740px',
+            backgroundColor: '#2196f3',
+            color: '#000000',
+            border: '4px solid #000000',
+            outline: 'none',
+            
           }}
         >
           Submit

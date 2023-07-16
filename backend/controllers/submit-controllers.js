@@ -18,9 +18,9 @@ const submitCode = async (req, res) => {
     // Check if the output matches the testOutputs
     const testInputs = problem.testInputs;
     const testOutputs = problem.testOutputs;
-    let verdict = "success";
+    let verdict = "Accepted";
     if (testInputs.length !== testOutputs.length) {
-      verdict = "error";
+      verdict = "Wrong Answer";
     } else {
       for (let i = 0; i < testInputs.length; i++) {
         const customInput = testInputs[i];
@@ -30,7 +30,7 @@ const submitCode = async (req, res) => {
         });
 
         if (testOutput.trim() !== expectedOutput.trim()) {
-          verdict = "error";
+          verdict = "Wrong Answer";
           break;
         }
       }
@@ -45,7 +45,7 @@ const submitCode = async (req, res) => {
       filepath,
       output,
       verdict,
-      status: verdict === "success" ? "success" : "error",
+      status: verdict === "Accepted" ? "Accepted" : "Wrong Answer",
     });
 
     await submission.save();

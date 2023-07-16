@@ -5,11 +5,15 @@ import { Button } from '@mui/material';
 
 axios.defaults.withCredentials = true;
 
-let firstRender = true;
-
 const Welcome = () => {
-  const [user, setUser] = useState();
-  const [problems, setProblems] = useState([]);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+  const [problems, setProblems] = useState(() => {
+    const storedProblems = localStorage.getItem('problems');
+    return storedProblems ? JSON.parse(storedProblems) : [];
+  });
   const history = useNavigate();
 
   const refreshToken = async () => {
@@ -48,12 +52,18 @@ const Welcome = () => {
   };
 
   useEffect(() => {
-    if (firstRender) {
-      firstRender = false;
-      sednRequest().then((data) => setUser(data.user));
+    if (!user) {
+      sednRequest().then((data) => {
+        setUser(data.user);
+        localStorage.setItem('user', JSON.stringify(data.user));
+      });
+    }
+
+    if (problems.length === 0) {
       fetchProblems().then((data) => {
         console.log(data);
         setProblems(data.problems);
+        localStorage.setItem('problems', JSON.stringify(data.problems));
       });
     }
 
@@ -71,7 +81,7 @@ const Welcome = () => {
   };
 
   const handleSolveProblem = (problemId) => {
-    history(`/solve/${problemId}?userId=${user._id}`); // Pass the userId as a query parameter
+    history(`/solve/${problemId}?userId=${user._id}`); 
   };
 
   return (
