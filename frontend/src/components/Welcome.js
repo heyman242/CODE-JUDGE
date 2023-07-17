@@ -74,7 +74,7 @@ const Welcome = () => {
     }, 1000 * 29);
 
     return () => clearInterval(interval);
-  }, []);
+  },);
 
   const handleAddProblem = () => {
     history('/addproblem');

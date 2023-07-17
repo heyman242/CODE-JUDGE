@@ -123,8 +123,9 @@ const SolvePage = () => {
         <pre>{sampleOutputs}</pre>
       </Box>
     </Box>
+    <br/>
     <Box className="language-select">
-      <Typography htmlFor="language-select" variant="h5">Language:</Typography>
+      <Typography htmlFor="language-select" variant="h5">Language: </Typography>
       <Select id="language-select" value={language} onChange={handleLanguageChange}>
         <MenuItem value="cpp">C++</MenuItem>
         <MenuItem value="py">Python</MenuItem>

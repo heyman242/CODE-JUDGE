@@ -14,6 +14,8 @@ const {
 } = require("../controllers/problem-controllers");
 const { compileCode, compileCode1 } = require("../controllers/submission-controllers");
 const { submitCode } = require("../controllers/submit-controllers");
+const { viewSubmissions } = require("../controllers/viewsubmission-controllers");
+
 
 const router = express.Router();
 
@@ -27,5 +29,7 @@ router.get("/problems", getProblems);
 router.get("/solve/:problemId", getProblemDetails);
 router.post("/compile/:problemId", compileCode);
 router.post("/submit/:problemId",submitCode);
+router.get("/submissions/:userId", viewSubmissions); // New route for viewing submissions
+
 
 module.exports = router;
