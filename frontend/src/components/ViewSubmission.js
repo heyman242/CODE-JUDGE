@@ -6,13 +6,15 @@ const ViewSubmission = () => {
   const location = useLocation();
   const userId = new URLSearchParams(location.search).get("userId");
   const [submissions, setSubmissions] = useState([]);
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     const fetchSubmissions = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/submissions/${userId}`);
-        const { submissions } = response.data;
+        const { submissions, userName } = response.data;
         setSubmissions(submissions);
+        setUserName(userName);
       } catch (error) {
         console.error(error);
       }
@@ -24,6 +26,7 @@ const ViewSubmission = () => {
   return (
     <div>
       <h1>View Submissions</h1>
+      <h3>User: {userName}</h3>
       {submissions.map((submission) => (
         <div key={submission._id}>
           <h3>Problem Name: {submission.problemId.problemName}</h3>
