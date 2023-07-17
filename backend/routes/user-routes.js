@@ -19,6 +19,7 @@ const { viewSubmissions } = require("../controllers/viewsubmission-controllers")
 
 const router = express.Router();
 
+
 router.post("/signup", signup);
 router.post("/login", login);
 router.get("/user", verifyToken, getUser);
@@ -29,7 +30,7 @@ router.get("/problems", getProblems);
 router.get("/solve/:problemId", getProblemDetails);
 router.post("/compile/:problemId", compileCode);
 router.post("/submit/:problemId",submitCode);
-router.get("/submissions/:userId", viewSubmissions); // New route for viewing submissions
+router.get("/submissions/:userId", viewSubmissions); 
 
 
 module.exports = router;

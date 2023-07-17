@@ -44,7 +44,7 @@ const Header = () => {
                             { !isLoggedIn && <><Tab to="/login" LinkComponent={Link} label="Login"/>
                             <Tab to="/signup" LinkComponent={Link} label="Sign Up"/> </>}
                             { isLoggedIn &&
-                            <Tab onClick={handleLogout} to="/login" LinkComponent={Link} label="Log out "/>
+                            <Tab onClick={handleLogout} to="/" LinkComponent={Link} label="Log out "/>
                             }
                         </Tabs>
                      </Box>

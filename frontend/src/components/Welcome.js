@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Button } from '@mui/material';
+import { Table, TableHead, TableBody, TableRow, TableCell, Button,Paper, Typography } from '@mui/material';
 
 axios.defaults.withCredentials = true;
 
@@ -84,50 +84,108 @@ const Welcome = () => {
     history(`/solve/${problemId}?userId=${user._id}`); 
   };
 
+  const handleViewSubmission = async () => {
+  try {
+    const response = await axios.get(`http://localhost:5000/api/submissions/${user._id}`);
+    const { submissions } = response.data;
+    console.log(submissions); 
+
+    history(`/viewsubmission?userId=${user._id}`, { submissions });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
   return (
     <div>
       <br/>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        {user && <h1 style={{ textAlign: "center" }}>Welcome to Code-Judge {user.name}!</h1>}
-        <br/>
-        <Button
+       <Button
           variant="contained"
           color="primary"
           onClick={handleAddProblem}
-          style={{ marginTop: "1rem", backgroundColor: "#f50057", color: "#ffffff" }}
+          style={{  
+          marginTop: '20px',
+            marginLeft: '150px',
+          backgroundColor: "#f50057", 
+          color: "#ffffff",
+        border: '4px solid #000000',
+            outline: 'none', }}
         >
           Add Problem
         </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleViewSubmission}
+          style={{  marginTop: '20px',
+            marginLeft: '800px',
+            backgroundColor: "#1e88e5",
+             color: "#ffffff",
+            border: '4px solid #000000',
+            outline: 'none', }}
+        >
+            View Submissions
+        </Button>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        {user && <h1 style={{ textAlign: "center",border: '4px solid #000000' }}>Welcome to Code-Judge {user.name}!</h1>}
+        <br/>
+       
+        
         <br/><br/>
-        <table style={{ margin: "auto", fontSize: "30px", border: "1px solid black", width: "80%", height: "auto" }}>
-          <thead>
-            <tr>
-              <th style={{ border: "1px solid black", textAlign: "center" }}>#</th>
-              <th style={{ border: "1px solid black", textAlign: "center" }}>Title</th>
-              <th style={{ border: "1px solid black", textAlign: "center" }}>Level</th>
-              <th style={{ border: "1px solid black", textAlign: "center" }}>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {problems.map((problem, index) => (
-              <tr key={problem._id}>
-                <td style={{ border: "1px solid black", textAlign: "center" }}>{index + 1}</td>
-                <td style={{ border: "1px solid black", textAlign: "center" }}>{problem.problemName}</td>
-                <td style={{ border: "1px solid black", textAlign: "center" }}>{problem.level}</td>
-                <td style={{ border: "1px solid black", textAlign: "center" }}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleSolveProblem(problem._id)}
-                    style={{ backgroundColor: "#4caf50", color: "#ffffff" }}
-                  >
-                    Solve
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Paper sx={{ margin: "auto", width: "70%", borderRadius: "10px", overflow: "hidden" }}>
+  <Table sx={{ width: "100%", border: "4px solid #000" }}>
+    <TableHead>
+      <TableRow>
+        <TableCell align="center">
+          <Typography variant="h5">#</Typography>
+        </TableCell>
+        <TableCell align="center">
+          <Typography variant="h5">Title</Typography>
+        </TableCell>
+        <TableCell align="center">
+          <Typography variant="h5">Level</Typography>
+        </TableCell>
+        <TableCell align="center">
+          <Typography variant="h5">Action</Typography>
+        </TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      {problems.map((problem, index) => (
+        <TableRow key={problem._id}>
+          <TableCell align="center">
+            <Typography variant="body1">{index + 1}</Typography>
+          </TableCell>
+          <TableCell align="center">
+            <Typography variant="body1">{problem.problemName}</Typography>
+          </TableCell>
+          <TableCell align="center">
+            <Typography variant="body1">{problem.level}</Typography>
+          </TableCell>
+          <TableCell align="center">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleSolveProblem(problem._id)}
+              sx={{
+                backgroundColor: "#4caf50",
+                border: '4px solid #000000',
+                outline: 'none',
+                color: "#ffffff",
+                "&:hover": {
+                  backgroundColor: "#388e3c",
+                },
+              }}
+            >
+              <Typography variant="button">Solve</Typography>
+            </Button>
+          </TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+</Paper>
+
       </div>
     </div>
   );
