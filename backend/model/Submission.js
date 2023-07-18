@@ -5,42 +5,42 @@ const Schema = mongoose.Schema;
 const SubmissionSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    ref: "User",
+    required: true,
   },
   problemId: {
     type: Schema.Types.ObjectId,
-    ref: 'Problem',
-    required: true
+    ref: "Problem",
+    required: true,
   },
   language: {
     type: String,
     required: true,
-    enum: ["cpp", "py"]
+    enum: ["cpp", "py"],
   },
   code: {
     type: String,
-    required: true
+    required: true,
   },
   filepath: {
     type: String,
-    required: true
+    required: true,
   },
   submittedAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   startedAt: {
-    type: Date
+    type: Date,
   },
   output: {
-    type: String
+    type: String,
   },
   status: {
     type: String,
-    default: 'pending',
-    enum: ["pending", "Accepted", "error"]
-  }
+    default: "pending",
+    enum: ["pending", "Accepted", "Wrong Answer"],
+  },
 });
 
 const Submission = mongoose.model('Submission', SubmissionSchema);
