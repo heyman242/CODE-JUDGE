@@ -9,7 +9,6 @@ axios.defaults.withCredentials = true;
 const Header = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
-  const user = useSelector((state) => state.user);
 
   const sendLogoutReq = async () => {
     try {
@@ -66,22 +65,14 @@ const Header = () => {
                 </>
               )}
               {isLoggedIn && (
-                <>
-                  <Tab label="Add Problem" to="/addproblem" component={Link} />
-                  {user?._id && (
-                    <Tab
-                      label="View Submissions"
-                      to={`/viewsubmission?userId=${user._id}`}
-                      component={Link}
-                    />
-                  )}
-                  <Tab
-                    onClick={handleLogout}
-                    to="/"
-                    LinkComponent={Link}
-                    label="Log out"
-                  />
-                </>
+                
+                
+                <Tab
+                  onClick={handleLogout}
+                  to="/"
+                  LinkComponent={Link}
+                  label="Log out"
+                />
               )}
             </Tabs>
           </Box>
