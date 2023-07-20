@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Box, Tabs, Tab } from '@mui/material';
+import React, { useState } from "react";
+import { AppBar, Toolbar, Typography, Box, Tabs, Tab } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 import { authActions } from "../store";
 axios.defaults.withCredentials = true;
 
 const Header = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(state => state.isLoggedIn);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const user = useSelector((state) => state.user);
 
   const sendLogoutReq = async () => {
     try {
       const res = await axios.post("http://localhost:5000/api/logout", null, {
-        withCredentials: true
+        withCredentials: true,
       });
       if (res.status === 200) {
         return res;
@@ -28,7 +29,7 @@ const Header = () => {
     try {
       await sendLogoutReq();
       dispatch(authActions.logout());
-      localStorage.removeItem('user'); // Clear user from local storage
+      localStorage.removeItem("user"); // Clear user from local storage
     } catch (error) {
       console.error(error);
     }
@@ -41,18 +42,22 @@ const Header = () => {
       <AppBar position="sticky">
         <Toolbar>
           <Typography varient="h1">
-                      <h1><Link to="/user" style={{ textDecoration: "none", color: "inherit" }}>
-                      CODE-JUDGE </Link>
-                      </h1>
-                    </Typography>
-
+            <h1>
+              <Link
+                to="/user"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                CODE-JUDGE{" "}
+              </Link>
+            </h1>
+          </Typography>
 
           <Box sx={{ marginLeft: "auto" }}>
             <Tabs
-              indicatorColor='secondary'
+              indicatorColor="secondary"
               onChange={(e, val) => setValue(val)}
               value={value}
-              textColor='inherit'
+              textColor="inherit"
             >
               {!isLoggedIn && (
                 <>
@@ -61,7 +66,22 @@ const Header = () => {
                 </>
               )}
               {isLoggedIn && (
-                <Tab onClick={handleLogout} to="/" LinkComponent={Link} label="Log out" />
+                <>
+                  <Tab label="Add Problem" to="/addproblem" component={Link} />
+                  {user?._id && (
+                    <Tab
+                      label="View Submissions"
+                      to={`/viewsubmission?userId=${user._id}`}
+                      component={Link}
+                    />
+                  )}
+                  <Tab
+                    onClick={handleLogout}
+                    to="/"
+                    LinkComponent={Link}
+                    label="Log out"
+                  />
+                </>
               )}
             </Tabs>
           </Box>
